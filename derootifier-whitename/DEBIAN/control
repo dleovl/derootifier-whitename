@@ -1,0 +1,8 @@
+Package: derootifier-whitename
+Version: 1.0
+Architecture: iphoneos-arm64
+Maintainer: dleovl
+Pre-Depends: uikittools
+Depends: fakeroot, ldid, odcctools, file
+Description: Whitename-safe installer for Derootifier :3
+

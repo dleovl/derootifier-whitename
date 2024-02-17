@@ -1,0 +1,8 @@
+#!/bin/bash
+echo "hello whitename nyehehehe"
+
+uialert -b "Downloading Derootifier. Make sure 'URL Scheme Enabled' is enabled in TrollStore. If not, reinstall this tweak after enabling it in TrollStore settings." -p "yes dleovl-chan..." "Attempting to open TrollStore"
+uiopen "apple-magnifier://install?url=https://github.com/haxi0/Derootifier/releases/download/1.3/Derootifier_1.3.ipa"
+uialert -b "If the Magnifier application opened, you did not enable the URL scheme in TrollStore. Reinstall the tweak, and follow the instructions that I tell you to. B-baka..." -p "im not dumb" -s "ok i am kinda dumb" -t "meow meow meow meow meow :3" "Magnifier warning"
+uialert -b "Close and reopen your package manager and remove derootifier-whitename after installing Derootifier." -p "thanks. btw im a femboy" "TrollStore opened"
+exit 0
