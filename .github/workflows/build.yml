@@ -11,6 +11,8 @@ jobs:
   build:
     name: Build tweak
     runs-on: macos-latest
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: 1
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
