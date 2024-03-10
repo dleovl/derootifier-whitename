@@ -5,6 +5,7 @@ ip="10.0.0.18"
 # set to device username
 user="mobile"
 
+echo you must have dpkg installed with brew. run 'brew install dpkg' if not done so already
 rm ./derootifier-whitename.deb
 rm ./derootifier-whitename/.DS_Store
 rm ./derootifier-whitename/DEBIAN/.DS_Store
