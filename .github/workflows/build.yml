@@ -1,0 +1,66 @@
+name: Build and Release Tweak
+
+on:
+  push:
+    paths:
+      - ".github/workflows/build.yml"
+      - "derootifier-whitename/DEBIAN/postinst"
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build tweak
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install brew gmake
+        run: brew install make
+
+      - name: Install theos
+        run: bash -c "$(curl -fsSL 'https://raw.githubusercontent.com/theos/theos/master/bin/install-theos')"
+
+      - name: Setup Theos environment
+        run: echo "THEOS=/Users/runner/theos" >> $GITHUB_ENV
+
+      - name: Make debs directory
+        run: mkdir ~/debs
+      
+      - name: Build Ding rootless
+        run: |
+          gmake -j$(sysctl -n hw.ncpu) clean do SYSROOT=$THEOS/sdks/iPhoneOS16.5.sdk
+        continue-on-error: true
+
+      - name: Move .deb
+        run: mv ./packages/*.deb ~/debs
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: derootifier-whitename
+          path: ~/debs/*.deb
+
+      - name: Delete old release
+        uses: dev-drprasad/delete-tag-and-release@v0.2.1
+        with:
+          delete_release: true
+          tag_name: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - name: Get artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: derootifier-whitename
+          path: ./artifacts/
+
+      - name: Create new rolling release
+        uses: ncipollo/release-action@v1
+        with:
+          name: "derootifier-whitename Release"
+          body: "`derootifier-whitename` built with GitHub Actions.\n\nBetter than any Nightwind tweak."
+          artifacts: "./artifacts/*.deb"
+          tag: release
+          token: ${{ secrets.GITHUB_TOKEN }}
