@@ -29,7 +29,7 @@ jobs:
       - name: Make debs directory
         run: mkdir ~/debs
       
-      - name: Build Ding rootless
+      - name: Build derootifier-whitename rootless
         run: |
           gmake -j$(sysctl -n hw.ncpu) clean do SYSROOT=$THEOS/sdks/iPhoneOS16.5.sdk
         continue-on-error: true
