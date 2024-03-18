@@ -11,8 +11,6 @@ jobs:
   build:
     name: Build tweak
     runs-on: macos-latest
-    env:
-      HOMEBREW_NO_AUTO_UPDATE: 1
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -25,23 +23,17 @@ jobs:
 
       - name: Setup Theos environment
         run: echo "THEOS=/Users/runner/theos" >> $GITHUB_ENV
-
-      - name: Make debs directory
-        run: mkdir ~/debs
       
       - name: Build derootifier-whitename rootless
         run: |
-          gmake -j$(sysctl -n hw.ncpu) clean do SYSROOT=$THEOS/sdks/iPhoneOS16.5.sdk
+          gmake -j$(sysctl -n hw.ncpu) clean do
         continue-on-error: true
-
-      - name: Move .deb
-        run: mv ./packages/*.deb ~/debs
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: derootifier-whitename
-          path: ~/debs/*.deb
+          path: ./packages/*.deb
 
       - name: Delete old release
         uses: dev-drprasad/delete-tag-and-release@v0.2.1
